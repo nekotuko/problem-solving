@@ -8,5 +8,14 @@
  */
 
 rootProject.name = "problem-solving"
-include("lc-0001-two-sum")
-include("lc-0002-add-two-numbers")
+
+rootProject.projectDir
+    .listFiles { file ->
+        file.isDirectory && file.name.matches("^[a-z]{2}-[0-9]{4}(?:-[a-z0-9]+)+$".toRegex())
+    }
+    ?.forEach { file -> include(file.name) }
+
+dependencyResolutionManagement {
+    repositories { mavenCentral() }
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+}
