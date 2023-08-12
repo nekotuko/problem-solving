@@ -11,8 +11,7 @@
 			"**/.*": true,
 			"**/bin": true,
 			"**/build": true,
-			"**/buildSrc": true,
-			"**/*gradle*": true,
+			"gradle/": true,
 		},
 	}
 }
