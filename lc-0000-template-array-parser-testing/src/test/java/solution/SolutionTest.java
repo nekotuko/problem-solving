@@ -3,28 +3,22 @@
  */
 package solution;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(IntArrayTestcaseConverter.class)
 class SolutionTest {
     @ParameterizedTest
     @CsvSource({
-            "1, 1, 2",
-            "2, 2, 4",
-            "1, 2, 3",
-            "10, 10, 20",
+            "1,2,3|4,5,6|5,7,9",
+            "10,20,30|40,50,60|50,70,90"
     })
-    void templateTestCases(int a, int b, int result) {
+    void templateTestCases(int[][] input_output) {
         Solution s = new Solution();
-        assertEquals(result, s.add(a, b));
-    }
-
-    @Test
-    void templateCustomTest() {
-        Solution s = new Solution();
-        assertEquals(3, s.add(1, 2));
+        int[] actual = s.add(input_output[0], input_output[1]);
+        assertArrayEquals(input_output[2], actual);
     }
 }
