@@ -3,22 +3,24 @@
  */
 package solution;
 
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(IntArrayTestcaseConverter.class)
 class SolutionTest {
     @ParameterizedTest
     @CsvSource({
-            "1,2,3|4,5,6|5,7,9",
-            "10,20,30|40,50,60|50,70,90"
+            "1;2;3", "4;5;6", "5;7;9",
+            "10;20;30", "40;50;60", "50;70;90"
     })
-    void templateTestCases(int[][] input_output) {
+    void templateTestCases(
+            @ConvertWith(StringToIntArrayConverter.class) int[] nums1,
+            @ConvertWith(StringToIntArrayConverter.class) int[] nums2,
+            @ConvertWith(StringToIntArrayConverter.class) int[] expected) {
         Solution s = new Solution();
-        int[] actual = s.add(input_output[0], input_output[1]);
-        assertArrayEquals(input_output[2], actual);
+        int[] actual = s.add(nums1, nums2);
+        assertArrayEquals(expected, actual);
     }
 }
