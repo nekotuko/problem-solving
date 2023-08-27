@@ -8,6 +8,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import solution.Solution.ListNode;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -96,37 +98,53 @@ class SolutionTest {
         }
     }
 
-    @ParameterizedTest
-    @CsvSource({
-            "1;2;4, 1;3;4, 1;1;2;3;4;4",
-    })
-    void testCorrect(MyListNode list1, MyListNode list2, MyArr expected) {
-        Pointers p = new Pointers();
-        p.saveList(list1.head);
-        p.saveList(list2.head);
-
-        Solution s = new Solution();
-
-        ListNode result = s.mergeTwoLists(list1.head, list2.head);
-
-        p.verify(result, expected.values);
-
+    void verifyListValuesAreEqual(ListNode a, ListNode b) {
     }
 
     @ParameterizedTest
     @CsvSource({
             "1;2;4, 1;3;4, 1;1;2;3;4;4",
     })
-    void testDeepCopy(MyListNode list1, MyListNode list2, MyArr expected) {
-        Pointers p = new Pointers();
-        p.saveList(list1.head);
-        p.saveList(list2.head);
+    void mergeProducesValuesInCorrectOrder(MyListNode list1, MyListNode list2, MyListNode expected) {
+        ListNode result = (new Solution()).mergeTwoLists(list1.head, list2.head);
 
-        Solution s = new Solution();
-
-        ListNode result = s.deepCopyMergeTwoLists(list1.head, list2.head);
-
-        p.verify(result, expected.values);
-
+        ListNode aCurr = expected.head;
+        ListNode bCurr = result;
+        while (aCurr != null && bCurr != null) {
+            assertEquals(aCurr.val, bCurr.val);
+            aCurr = aCurr.next;
+            bCurr = bCurr.next;
+        }
+        assertNull(aCurr);
+        assertNull(bCurr);
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "1;2;4, 1;3;4, 1;1;2;3;4;4",
+    })
+    void mergedListIsMadeOfElementsOfInputLists(MyListNode list1, MyListNode list2, MyListNode expected) {
+        int expectedHashAgg = 0;
+        // There is probably a way to replace this with a method that can iterate over a
+        // list and apply a function, something like this:
+        //
+        // applyOperation(list1, (a, b) -> {return a ^ b});
+        //
+        for (ListNode curr = list1.head; curr != null; curr = curr.next) {
+            expectedHashAgg ^= curr.hashCode();
+        }
+
+        for (ListNode curr = list2.head; curr != null; curr = curr.next) {
+            expectedHashAgg ^= curr.hashCode();
+        }
+
+        ListNode result = (new Solution()).mergeTwoLists(list1.head, list2.head);
+        int actualHashAgg = 0;
+        for (ListNode curr = result; curr != null; curr = curr.next) {
+            actualHashAgg ^= curr.hashCode();
+        }
+
+        assertEquals(expectedHashAgg, actualHashAgg);
+    }
+
 }
