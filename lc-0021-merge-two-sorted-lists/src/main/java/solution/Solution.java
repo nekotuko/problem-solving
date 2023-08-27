@@ -17,6 +17,22 @@ public class Solution {
             this.val = val;
             this.next = next;
         }
+
+        // Presents this linked list as an array.
+        // This is also used by the debugger to print this class.
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("[");
+            for (ListNode i = this; i != null; i = i.next) {
+                sb.append(i.val);
+                if (i.next != null) {
+                    sb.append(", ");
+                }
+            }
+            sb.append("]");
+            return sb.toString();
+        }
     }
     // NOTES:
 
