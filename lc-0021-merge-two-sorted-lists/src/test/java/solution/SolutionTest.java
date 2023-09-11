@@ -101,6 +101,9 @@ class SolutionTest {
     void verifyListValuesAreEqual(ListNode a, ListNode b) {
     }
 
+    // ***Below is a more industry aligned testing approach:***
+
+    // First test values:
     @ParameterizedTest
     @CsvSource({
             "1;2;4, 1;3;4, 1;1;2;3;4;4",
@@ -119,6 +122,7 @@ class SolutionTest {
         assertNull(bCurr);
     }
 
+    // Then test objects (using .hashCode()):
     @ParameterizedTest
     @CsvSource({
             "1;2;4, 1;3;4, 1;1;2;3;4;4",
