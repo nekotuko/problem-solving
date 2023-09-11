@@ -5,15 +5,15 @@ import java.util.Map;
 import java.util.Stack;
 
 public class Solution {
-    Map<Character, Character> mCompliments; // To neatly access open-close brackets
+    Map<Character, Character> mComplements; // To neatly access open-close brackets
     Stack<Character> mStack; // To keep track of order of open-close brackets
 
     public Solution() {
         // Construct class variables
-        mCompliments = new HashMap<>(); // map<openingBracket, closingBracket>
-        mCompliments.put('(', ')');
-        mCompliments.put('[', ']');
-        mCompliments.put('{', '}');
+        mComplements = new HashMap<>(); // map<openingBracket, closingBracket>
+        mComplements.put('(', ')');
+        mComplements.put('[', ']');
+        mComplements.put('{', '}');
 
         mStack = new Stack<>();
     }
@@ -21,8 +21,8 @@ public class Solution {
     // helper method checks if a given character is a correct complement for last
     // bracket in stack
     private boolean isComplement(char openBracket, char closeBracket) {
-        if (mCompliments.containsKey(openBracket)) {
-            return closeBracket == mCompliments.get(openBracket);
+        if (mComplements.containsKey(openBracket)) {
+            return closeBracket == mComplements.get(openBracket);
         }
         return false;
     }
