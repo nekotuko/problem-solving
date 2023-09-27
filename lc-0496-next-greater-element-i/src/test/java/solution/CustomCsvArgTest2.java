@@ -5,13 +5,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CustomCsvArgTest {
+public class CustomCsvArgTest2 {
 
     static class MyArg {
         MyArg(String s) {
-            s = s.replaceAll("\\[", "");
-            s = s.replaceAll("\\]", "");
-            String[] tokens = s.split(",");
+            String[] tokens = s.split(";");
             int n = tokens.length;
 
             values = new int[n];
@@ -24,13 +22,15 @@ public class CustomCsvArgTest {
     }
 
     @ParameterizedTest
-    @CsvSource(value = {
-            "[1,2,3]; [10,10,10]; [11,12,13]",
-            "[1,2,3]; [19,18,17]; [20,20,20]",
-    }, delimiter = ';')
-    void testWithMyArgs(MyArg a, MyArg b, MyArg c) {
-        Solution s = new Solution();
-        assertArrayEquals(c.values, s.addAll(a.values, b.values));
+    @CsvSource({
+            "4;1;2, 1;3;4;2, -1;3;-1",
+            "2;4, 1;2;3;4, 3;-1",
+            "1, 1;2, 2",
+            "1, 2;1, -1",
+    })
+    void testWithMyArgs(MyArg nums1, MyArg nums2, MyArg expected) {
+        Solution2 s = new Solution2();
+        assertArrayEquals(expected.values, s.nextGreaterElement(nums1.values, nums2.values));
     }
 
 }
