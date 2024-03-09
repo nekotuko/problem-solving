@@ -37,41 +37,28 @@ public class CustomCsvArgTest {
         }
     }
 
-    static class MyArg {
-        MyArg(String s) {
-            s = s.replaceAll("\\[", "");
-            s = s.replaceAll("\\]", "");
-            String[] tokens = s.split(",");
-            int n = tokens.length;
-
-            values = new int[n];
-            for (int i = 0; i < n; ++i) {
-                values[i] = Integer.parseInt(tokens[i]);
-            }
-        }
-
-        public final int[] values;
-    }
-
-    // Template to test 1D array inputs/outputs:
     @ParameterizedTest
     @CsvSource(value = {
-            "[1,2,3]; [10,10,10]; [11,12,13]",
-            "[1,2,3]; [19,18,17]; [20,20,20]"
+            "[1,1,1] [1,1,0] [1,0,1]; 1; 1; 2;[2,2,2] [2,2,0] [2,0,1]",
+            "[1,1,1] [1,1,1]; 0; 0; 10; [10,10,10] [10,10,10]",
+            "[1,1,1] [1,0,1]; 1; 1; 10; [1,1,1] [1,10,1]"
     }, delimiter = ';')
-    void testWithMyArgs(MyArg a, MyArg b, MyArg c) {
-        Solution s = new Solution();
-        assertArrayEquals(c.values, s.addAll(a.values, b.values));
+    void testBFS(My2DArray image, int sr, int sc, int color, My2DArray expected) {
+        SolutionBFS s = new SolutionBFS();
+
+        assertArrayEquals(expected.values, s.floodFill(image.values, sr, sc, color));
     }
 
-    // Template to test 2D array inputs/outputs:
     @ParameterizedTest
     @CsvSource(value = {
-            "[] []; 0",
-            "[1,2,3] [4,5,6] [7,8,9]; 45"
+            "[1,1,1] [1,1,0] [1,0,1]; 1; 1; 2;[2,2,2] [2,2,0] [2,0,1]",
+            "[1,1,1] [1,1,1]; 0; 0; 10; [10,10,10] [10,10,10]",
+            "[1,1,1] [1,0,1]; 1; 1; 10; [1,1,1] [1,10,1]"
     }, delimiter = ';')
-    void testWith2DArrays(My2DArray input, int expected) {
-        Solution s = new Solution();
-        assertEquals(expected, s.addAll2DArray(input.values));
+    void testDFS(My2DArray image, int sr, int sc, int color, My2DArray expected) {
+        SolutionDFS s = new SolutionDFS();
+
+        assertArrayEquals(expected.values, s.floodFill(image.values, sr, sc, color));
     }
+
 }
